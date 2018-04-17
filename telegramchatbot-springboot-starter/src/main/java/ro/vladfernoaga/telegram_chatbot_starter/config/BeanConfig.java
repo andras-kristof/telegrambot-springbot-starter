@@ -19,7 +19,7 @@ public class BeanConfig {
 	/** The Constant LOGGER. */
 	public static final Logger LOGGER = LogManager.getLogger();
 
-	private static final String API_TOKEN = "<YOUR API TOKEN>";
+	private static final String API_TOKEN = "301393209:AAHmdyFo2w396DQmckL2_nBncXZEqPOXYgU";
 
 	@Autowired
 	private SimpleUpdateHandler updateHandler;
