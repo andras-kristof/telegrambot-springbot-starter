@@ -7,35 +7,30 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 @Entity
-@Table(name = "student")
-public class BasicInfo {
+@Table(name = "medication")
+public class Medication {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Column(name = "name",unique=true)
+	@Column(name = "name")
 	private String name;
+	
+	@Column(name = "dosage1")
+	private Integer dosage1;
+	
+	@Column(name = "dosage2")
+	private Integer dosage2;
+	
+	@Column(name = "dosage3")
+	private Integer dosage3;
+	
+	@Column(name = "dosage4")
+	private Integer dosage4;
+	
+	@Column(name = "unit")
+	private String unit;
+	
 }
