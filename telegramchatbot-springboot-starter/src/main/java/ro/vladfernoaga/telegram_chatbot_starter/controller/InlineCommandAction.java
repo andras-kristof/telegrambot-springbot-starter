@@ -22,24 +22,22 @@ public class InlineCommandAction implements MessageCommandAction {
 
 	@Override
 	public Boolean execute(TelegramBot bot, Message m, MedicationStorageService mss) {
-//		Integer chatId = m.from().id();
-//		String messageText = m.text();
-//		Integer messageId = m.messageId();
-//		MedicationUserDTO user = mss.addNewOrGet(m.from().id().toString());
-//		Set<MedicationDTO> medications = user.getMedications();
-//		InlineKeyboardButton[] buttons = new ArrayList<InlineKeyboardButton>();
-//		for (MedicationDTO medication: medications) {
-//			buttons.add(new InlineKeyboardButton(medication.getName()).callbackData(medication.getId().toString()));
-//		}
-//		InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup((InlineKeyboardButton[])buttons.toArray());
-//		
-//		SendMessage request = new SendMessage(chatId,
-//				String.format("<b>Hello inline  %s", messageText))
-//						.disableNotification(false).replyToMessageId(messageId)
-//						.replyMarkup(inlineKeyboard);
-//		bot.execute(request);
-//		return true ;
-		return false;
+		Integer chatId = m.from().id();
+		String messageText = m.text();
+		Integer messageId = m.messageId();
+		MedicationUserDTO user = mss.addNewOrGet(m.from().id().toString());
+		MedicationDTO[] medications = user.getMedications().toArray(new MedicationDTO[user.getMedications().size()]);
+		InlineKeyboardButton[] buttons = new InlineKeyboardButton[medications.length];
+		for (int i = 0; i < medications.length; i++) {
+			buttons[i] = new InlineKeyboardButton(medications[i].getName()).callbackData(medications[i].getId().toString());
+		}
+		InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup(buttons);	
+		SendMessage request = new SendMessage(chatId,
+				String.format("<b>Hello inline  %s", messageText))
+						.disableNotification(false).replyToMessageId(messageId)
+						.replyMarkup(inlineKeyboard);
+		bot.execute(request);
+		return true ;
 	}
 
 }

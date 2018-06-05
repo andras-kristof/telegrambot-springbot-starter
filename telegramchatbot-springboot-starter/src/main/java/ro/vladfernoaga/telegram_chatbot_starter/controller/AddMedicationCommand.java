@@ -20,8 +20,17 @@ public class AddMedicationCommand implements MessageCommandAction {
 		String messageText = m.text();
 		Integer messageId = m.messageId();
 		String[] strings = messageText.split(" ");
-		if (strings.length == 2) {
-			MedicationDTO medication = mss.storeMedication(new MedicationDTO(strings[0], 0, 0, 0, 0, "",true), m.from().id().toString());
+		if (strings.length == 7) {
+			
+			MedicationDTO medication = mss.storeMedication(
+											new MedicationDTO(strings[1],
+															  new Integer(strings[2]).intValue(),
+															  new Integer(strings[3]).intValue(),
+															  new Integer(strings[4]).intValue(),
+															  new Integer(strings[5]).intValue(),
+															  strings[6],
+															  true),
+											m.from().id().toString());
 			SendMessage request = new SendMessage(chatId,
 					String.format("Sucessfully Registered: %s",medication.toString() )).parseMode(ParseMode.HTML)
 							.disableNotification(false).replyToMessageId(messageId).replyMarkup(new ForceReply());
