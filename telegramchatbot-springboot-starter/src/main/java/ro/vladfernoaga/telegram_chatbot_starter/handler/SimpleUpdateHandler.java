@@ -21,6 +21,9 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 
 import ro.vladfernoaga.telegram_chatbot_starter.controller.FreeTextCommand;
+import ro.vladfernoaga.telegram_chatbot_starter.controller.InvalidCommand;
+import ro.vladfernoaga.telegram_chatbot_starter.service.BasicService;
+import ro.vladfernoaga.telegram_chatbot_starter.service.MedicationStorageService;
 
 @Service
 public class SimpleUpdateHandler implements UpdatesListener {
@@ -30,16 +33,22 @@ public class SimpleUpdateHandler implements UpdatesListener {
 
 	@Autowired
 	private TelegramBot bot;
-
+	
+	@Autowired
+	private MedicationStorageService mss;
 	// Process free text input from user
-
+	InvalidCommand ic = new InvalidCommand();
 	public void process(Message m) {
 		String messageText = m.text();
 		for (FreeTextCommand command : FreeTextCommand.values()) {
-			if (command.getCommandText().matches(messageText)) {
-				command.getAction().execute(bot, m);
+			if (messageText.startsWith(command.getCommandText())) {
+				Boolean sucess = command.getAction().execute(bot, m, mss);
+				if (sucess) {
+					return;
+				}
 			}
 		}
+		ic.execute(bot, m, mss); 
 	}
 
 	public void procces(CallbackQuery callback) {
@@ -70,10 +79,7 @@ public class SimpleUpdateHandler implements UpdatesListener {
 	@Override
 	public int process(List<Update> updates) {
 		for (Update update : updates) {
-			
 			process(update);
-			
-			
 		}
 
 		return UpdatesListener.CONFIRMED_UPDATES_ALL;

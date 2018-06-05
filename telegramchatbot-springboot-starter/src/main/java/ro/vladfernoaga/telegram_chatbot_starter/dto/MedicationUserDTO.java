@@ -21,7 +21,7 @@ public class MedicationUserDTO {
 		super();
 		this.name = name;
 		morning = 7;
-		dinner = 12;
+		lunch = 12;
 		dinner = 19;
 		night = 0;
 	}
@@ -72,6 +72,12 @@ public class MedicationUserDTO {
 
 	public void setMedications(Set<MedicationDTO> medications) {
 		this.medications = medications;
+	}
+
+	@Override
+	public String toString() {
+		return "MedicationUserDTO [morning=" + morning + ", lunch=" + lunch + ", dinner=" + dinner + ", night=" + night
+				+ ", name=" + name + ", medications=" + medications + "]";
 	}
 	
 	

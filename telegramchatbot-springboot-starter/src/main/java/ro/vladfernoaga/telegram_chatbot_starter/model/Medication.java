@@ -18,6 +18,9 @@ public class Medication {
 	@Column(name = "id")
 	private Long id;
 	
+	@Column(name = "active")
+	private Boolean active;
+	
 	@Column(name = "name")
 	private String name;
 	
@@ -35,8 +38,23 @@ public class Medication {
 	
 	@Column(name = "unit")
 	private String unit;
+	
+	private Medication() {
+		super();
+	}
 
-	protected Medication(String name, Integer dosage1, Integer dosage2, Integer dosage3, Integer dosage4, String unit) {
+	public Medication(String name) {
+		super();
+		this.name = name;
+		this.dosage1 = 0;
+		this.dosage2 = 0;
+		this.dosage3 = 0;
+		this.dosage4 = 0;
+		this.unit = "";
+		this.active = true;
+	}
+	
+	public Medication(String name, Integer dosage1, Integer dosage2, Integer dosage3, Integer dosage4, String unit, Boolean active) {
 		super();
 		this.name = name;
 		this.dosage1 = dosage1;
@@ -44,11 +62,13 @@ public class Medication {
 		this.dosage3 = dosage3;
 		this.dosage4 = dosage4;
 		this.unit = unit;
+		this.active = active;
 	}
 	
-	protected Medication(MedicationDTO medicationDTO) {
+	public Medication(MedicationDTO medicationDTO) {
 		super();
 		this.name = medicationDTO.getName();
+		this.active = medicationDTO.getActive();
 		this.dosage1 = medicationDTO.getDosage1();
 		this.dosage2 = medicationDTO.getDosage2();
 		this.dosage3 = medicationDTO.getDosage3();
@@ -56,15 +76,34 @@ public class Medication {
 		this.unit = medicationDTO.getUnit();
 	}
 	
-	protected MedicationDTO toMedicationDTO() {
-		return new MedicationDTO(getName(),
-								 getDosage1(),
-								 getDosage2(),
-								 getDosage3(),
-								 getDosage4(),
-								 getUnit());
+	public MedicationDTO toMedicationDTO() {
+		MedicationDTO medication = new MedicationDTO(getName(),
+				 getDosage1(),
+				 getDosage2(),
+				 getDosage3(),
+				 getDosage4(),
+				 getUnit(),
+				 getActive());
+		medication.setId(this.getId());
+		return medication;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
 	public String getName() {
 		return name;
 	}
